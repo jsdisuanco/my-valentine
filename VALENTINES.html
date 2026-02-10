@@ -39,7 +39,7 @@
         #no-btn { background: #adb5bd; color: white; }
 
         /* Success Section */
-        #content-section { width: 90%; max-width: 800px; padding: 50px 0; text-align: center; }
+        #content-section { width: 95%; max-width: 1200px; padding: 50px 0; text-align: center; }
 
         /* Love Counter */
         .counter-container {
@@ -52,16 +52,49 @@
         .message-area {
             background: #fff; padding: 30px; border-radius: 15px;
             border-left: 5px solid var(--pink); margin-bottom: 40px;
-            text-align: left; line-height: 1.6; font-style: italic;
+            text-align: left; line-height: 1.6; font-style: italic; white-space: pre-line;
         }
 
-        /* Photo Album */
-        .photo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-        .polaroid {
-            background: white; padding: 10px 10px 30px 10px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1); transform: rotate(var(--r));
+        /* --- Updated Photo Album (iPhone Portrait Style) --- */
+        .photo-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); /* 2 cols on mobile for vertical look */
+            gap: 15px; 
+            padding: 10px;
         }
-        .polaroid img { width: 100%; height: 200px; object-fit: cover; }
+
+        @media (min-width: 900px) {
+            .photo-grid { grid-template-columns: repeat(4, 1fr); } /* 4 cols on desktop */
+        }
+
+        .polaroid {
+            background: white; 
+            padding: 8px 8px 25px 8px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1); 
+            transform: rotate(var(--r));
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 10px; /* Slight roundness like iPhone photos */
+        }
+
+        .polaroid:hover { 
+            transform: rotate(0deg) scale(1.05); 
+            z-index: 5; 
+            box-shadow: 0 15px 30px rgba(255, 77, 109, 0.2);
+        }
+
+        .polaroid img { 
+            width: 100%; 
+            aspect-ratio: 9 / 14; /* Standard vertical portrait ratio */
+            object-fit: cover; 
+            border-radius: 5px;
+        }
+
+        .polaroid p {
+            margin: 10px 0 0 0;
+            font-family: 'Brush Script MT', cursive;
+            font-size: 1.1rem;
+            color: #555;
+        }
 
         .heart { position: fixed; top: -10vh; color: var(--pink); z-index: 1; animation: fall linear forwards; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
@@ -69,15 +102,17 @@
 </head>
 <body>
 
-    <audio id="bg-music" loop><source src="oursong.mp3" type="audio/mpeg"></audio>
+    <audio id="valentine-music" loop>
+        <source src="oursong.mp3" type="audio/mpeg">
+    </audio>
 
     <div id="main-card">
         <div class="container">
             <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueGZ3bmZqZzR4eXpueGZ3bmZqZzR4eXpueGZ3bmZqZzR4eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/cLS1cfxvGOPVpf9g3y/giphy.gif" width="100">
-            <h1>Will you be my Valentine? ❤️</h1>
+            <h1>Do you love me? ❤️</h1>
             <div class="buttons">
                 <button id="yes-btn">YES</button>
-                <button id="no-btn">NO</button>
+                <button id="no-btn" style="position: relative;">NO</button>
             </div>
         </div>
     </div>
@@ -85,7 +120,7 @@
     <div id="content-section" class="hidden">
         <div class="counter-container">
             <h3>Time we've spent together:</h3>
-            <div id="timer">Loading time...</div>
+            <div id="timer">Calculating...</div>
         </div>
 
         <div class="message-area">
@@ -93,25 +128,29 @@
         </div>
 
         <div class="photo-grid">
-            <div class="polaroid" style="--r: -2deg;"><img src="photo1.jpg"><p>Us ❤️</p></div>
-            <div class="polaroid" style="--r: 3deg;"><img src="photo2.jpg"><p>Happy Moments</p></div>
+            <div class="polaroid" style="--r: -2deg;"><img src="flowers.jpg"><p>First Flowers</p></div>
+            <div class="polaroid" style="--r: 3deg;"><img src="date.jpg"><p>First Date</p></div>
+            <div class="polaroid" style="--r: -1deg;"><img src="grad.jpg"><p>Graduation</p></div>
+            <div class="polaroid" style="--r: 2deg;"><img src="jarry.jpg"><p>Jarry</p></div>
+            <div class="polaroid" style="--r: 4deg;"><img src="jarryandus.jpg"><p>Jarry and Us</p></div>
+            <div class="polaroid" style="--r: -4deg;"><img src="church.jpg"><p>Church</p></div>
+            <div class="polaroid" style="--r: 2deg;"><img src="white.jpg"><p>Pledging</p></div>
+            <div class="polaroid" style="--r: -3deg;"><img src="tagaytay.jpg"><p>Cafe Roo</p></div>
         </div>
     </div>
 
     <script>
-        // --- SETTINGS ---
-        const anniversaryDate = "2023-05-20T00:00:00"; // YYYY-MM-DD format
-        const loveLetter = "My Dearest, \n\nEvery day with you feels like a dream. Thank you for being my favorite person and my best friend. I love you more than code! \n\nAlways, Yours.";
+        const anniversaryDate = "2025-05-31T00:00:00"; 
+        const loveLetter = "My Dearest Arianne, \n\nLoving you has been the easiest and most genuine decision I have ever made. You came into my life and changed it in ways I never knew I needed, and for that, I am endlessly grateful. Thank you for choosing me, for allowing me to love you, and for loving me with such warmth and sincerity in return. \n \n I truly appreciate you for being you—for your presence, your patience, and the love you bring into my life every single day. I love you more than words can fully express, and I would do anything for you, always. Having you in my life is a gift I will never take for granted. \n\n Sincerely, Your Stinkybebi.";
 
         const noBtn = document.getElementById('no-btn');
         const yesBtn = document.getElementById('yes-btn');
         const mainCard = document.getElementById('main-card');
         const contentSection = document.getElementById('content-section');
-        const music = document.getElementById('bg-music');
+        const music = document.getElementById('valentine-music');
 
-        // Teleport No Button
         noBtn.addEventListener('mouseover', moveButton);
-        noBtn.addEventListener('touchstart', moveButton);
+        noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveButton(); });
 
         function moveButton() {
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
@@ -124,7 +163,7 @@
         yesBtn.addEventListener('click', () => {
             mainCard.classList.add('hidden');
             contentSection.classList.remove('hidden');
-            music.play();
+            music.play().catch(err => console.log("Audio play failed: ", err));
             updateTimer();
             setInterval(updateTimer, 1000);
             typeWriter();
@@ -135,14 +174,16 @@
             const start = new Date(anniversaryDate);
             const now = new Date();
             const diff = now - start;
+            const absoluteDiff = Math.abs(diff);
 
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const mins = Math.floor((diff / (1000 * 60)) % 60);
-            const secs = Math.floor((diff / 1000) % 60);
+            const days = Math.floor(absoluteDiff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((absoluteDiff / (1000 * 60 * 60)) % 24);
+            const mins = Math.floor((absoluteDiff / (1000 * 60)) % 60);
+            const secs = Math.floor((absoluteDiff / 1000) % 60);
 
+            let prefix = diff > 0 ? "" : "Coming in: ";
             document.getElementById('timer').innerHTML = 
-                `<div>${days}d</div><div>${hours}h</div><div>${mins}m</div><div>${secs}s</div>`;
+                `<div>${prefix}${days}d</div><div>${hours}h</div><div>${mins}m</div><div>${secs}s</div>`;
         }
 
         let i = 0;
