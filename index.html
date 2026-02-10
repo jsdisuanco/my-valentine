@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Favorite Person ❤️</title>
+    <style>
+        :root {
+            --pink: #ff4d6d;
+            --dark-pink: #c9184a;
+            --white: #fff0f3;
+        }
+
+        body {
+            margin: 0; padding: 0;
+            background-color: var(--white);
+            font-family: 'Segoe UI', sans-serif;
+            overflow-x: hidden;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        .hidden { display: none !important; }
+
+        /* Question Card */
+        #main-card {
+            height: 100vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
+
+        .container {
+            background: white; padding: 2.5rem; border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.15);
+            text-align: center; max-width: 400px; z-index: 10;
+        }
+
+        .buttons { display: flex; gap: 20px; justify-content: center; margin-top: 20px; }
+        button { padding: 12px 28px; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; }
+        #yes-btn { background: var(--pink); color: white; }
+        #no-btn { background: #adb5bd; color: white; }
+
+        /* Success Section */
+        #content-section { width: 95%; max-width: 1200px; padding: 50px 0; text-align: center; }
+
+        /* Love Counter */
+        .counter-container {
+            background: white; padding: 20px; border-radius: 20px;
+            margin-bottom: 40px; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        #timer { display: flex; justify-content: center; gap: 15px; font-size: 1.2rem; color: var(--dark-pink); font-weight: bold; }
+
+        /* Love Letter */
+        .message-area {
+            background: #fff; padding: 30px; border-radius: 15px;
+            border-left: 5px solid var(--pink); margin-bottom: 40px;
+            text-align: left; line-height: 1.6; font-style: italic; white-space: pre-line;
+        }
+
+        /* --- Updated Photo Album (iPhone Portrait Style) --- */
+        .photo-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); /* 2 cols on mobile for vertical look */
+            gap: 15px; 
+            padding: 10px;
+        }
+
+        @media (min-width: 900px) {
+            .photo-grid { grid-template-columns: repeat(4, 1fr); } /* 4 cols on desktop */
+        }
+
+        .polaroid {
+            background: white; 
+            padding: 8px 8px 25px 8px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1); 
+            transform: rotate(var(--r));
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 10px; /* Slight roundness like iPhone photos */
+        }
+
+        .polaroid:hover { 
+            transform: rotate(0deg) scale(1.05); 
+            z-index: 5; 
+            box-shadow: 0 15px 30px rgba(255, 77, 109, 0.2);
+        }
+
+        .polaroid img { 
+            width: 100%; 
+            aspect-ratio: 9 / 14; /* Standard vertical portrait ratio */
+            object-fit: cover; 
+            border-radius: 5px;
+        }
+
+        .polaroid p {
+            margin: 10px 0 0 0;
+            font-family: 'Brush Script MT', cursive;
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        .heart { position: fixed; top: -10vh; color: var(--pink); z-index: 1; animation: fall linear forwards; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <audio id="valentine-music" loop>
+        <source src="oursong.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="main-card">
+        <div class="container">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueGZ3bmZqZzR4eXpueGZ3bmZqZzR4eXpueGZ3bmZqZzR4eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/cLS1cfxvGOPVpf9g3y/giphy.gif" width="100">
+            <h1>Do you love me? ❤️</h1>
+            <div class="buttons">
+                <button id="yes-btn">YES</button>
+                <button id="no-btn" style="position: relative;">NO</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="content-section" class="hidden">
+        <div class="counter-container">
+            <h3>Time we've spent together:</h3>
+            <div id="timer">Calculating...</div>
+        </div>
+
+        <div class="message-area">
+            <p id="typed-message"></p>
+        </div>
+
+        <div class="photo-grid">
+            <div class="polaroid" style="--r: -2deg;"><img src="flowers.jpg"><p>First Flowers</p></div>
+            <div class="polaroid" style="--r: 3deg;"><img src="date.jpg"><p>First Date</p></div>
+            <div class="polaroid" style="--r: -1deg;"><img src="grad.jpg"><p>Graduation</p></div>
+            <div class="polaroid" style="--r: 2deg;"><img src="jarry.jpg"><p>Jarry</p></div>
+            <div class="polaroid" style="--r: 4deg;"><img src="jarryandus.jpg"><p>Jarry and Us</p></div>
+            <div class="polaroid" style="--r: -4deg;"><img src="church.jpg"><p>Church</p></div>
+            <div class="polaroid" style="--r: 2deg;"><img src="white.jpg"><p>Pledging</p></div>
+            <div class="polaroid" style="--r: -3deg;"><img src="tagaytay.jpg"><p>Cafe Roo</p></div>
+        </div>
+    </div>
+
+    <script>
+        const anniversaryDate = "2025-05-31T00:00:00"; 
+        const loveLetter = "My Dearest Arianne, \n\nLoving you has been the easiest and most genuine decision I have ever made. You came into my life and changed it in ways I never knew I needed, and for that, I am endlessly grateful. Thank you for choosing me, for allowing me to love you, and for loving me with such warmth and sincerity in return. \n \n I truly appreciate you for being you—for your presence, your patience, and the love you bring into my life every single day. I love you more than words can fully express, and I would do anything for you, always. Having you in my life is a gift I will never take for granted. \n\n Sincerely, Your Stinkybebi.";
+
+        const noBtn = document.getElementById('no-btn');
+        const yesBtn = document.getElementById('yes-btn');
+        const mainCard = document.getElementById('main-card');
+        const contentSection = document.getElementById('content-section');
+        const music = document.getElementById('valentine-music');
+
+        noBtn.addEventListener('mouseover', moveButton);
+        noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveButton(); });
+
+        function moveButton() {
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        }
+
+        yesBtn.addEventListener('click', () => {
+            mainCard.classList.add('hidden');
+            contentSection.classList.remove('hidden');
+            music.play().catch(err => console.log("Audio play failed: ", err));
+            updateTimer();
+            setInterval(updateTimer, 1000);
+            typeWriter();
+            setInterval(createHeart, 300);
+        });
+
+        function updateTimer() {
+            const start = new Date(anniversaryDate);
+            const now = new Date();
+            const diff = now - start;
+            const absoluteDiff = Math.abs(diff);
+
+            const days = Math.floor(absoluteDiff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((absoluteDiff / (1000 * 60 * 60)) % 24);
+            const mins = Math.floor((absoluteDiff / (1000 * 60)) % 60);
+            const secs = Math.floor((absoluteDiff / 1000) % 60);
+
+            let prefix = diff > 0 ? "" : "Coming in: ";
+            document.getElementById('timer').innerHTML = 
+                `<div>${prefix}${days}d</div><div>${hours}h</div><div>${mins}m</div><div>${secs}s</div>`;
+        }
+
+        let i = 0;
+        function typeWriter() {
+            if (i < loveLetter.length) {
+                document.getElementById("typed-message").innerHTML += loveLetter.charAt(i);
+                i++;
+                setTimeout(typeWriter, 50);
+            }
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+    </script>
+</body>
+</html>
